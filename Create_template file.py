@@ -21,8 +21,22 @@ class Example(Frame):
             self.master.columnconfigure(c, weight=1)
             Button(self, text="Button {0}".format(c)).grid(row=6, column=c, sticky=E + W)
 
+        Frame0 = Frame(self)
+        Frame0.grid(row=0, column=0, rowspan=1, columnspan=3, sticky=W + E + N + S)
+        lbl1 = Label(Frame0, text="File Path :", width=10)
+        lbl1.pack(side=LEFT, padx=5, pady=5)
+
+        file_path = StringVar()
+        frame = Frame(self)
+        frame.grid(row=1, column=0, rowspan=3, columnspan=13, sticky=W + E + N + S)
+        entry2 = Entry(frame, textvariable=file_path)
+        entry2.pack(fill=X, padx=5, expand=False)
+
+        frame_1 = Frame(self, relief=RAISED, borderwidth=1)
+        frame_1.grid(row=4, column=0, rowspan=1, columnspan=13, sticky=W + E + N + S)
+
         Frame1 = Frame(self)
-        Frame1.grid(row=0, column=0, rowspan=5, columnspan=3, sticky=W + E + N + S)
+        Frame1.grid(row=5, column=0, rowspan=5, columnspan=3, sticky=W + E + N + S)
         scrollbar = Scrollbar(Frame1)
         scrollbar.pack(side=RIGHT, anchor=N, fill=Y, padx=2, pady=5)
         # Example
@@ -34,7 +48,7 @@ class Example(Frame):
         scrollbar.config(command=self.mylist.yview)
 
         Frame3 = Frame(self)
-        Frame3.grid(row=0, column=3, rowspan=2, columnspan=2, sticky=W + E + N + S)
+        Frame3.grid(row=5, column=3, rowspan=2, columnspan=2, sticky=W + E + N + S)
         AddButton = Button(Frame3, text="--> Add -->")
         AddButton.pack(side=TOP, padx=5, pady=5)
 
@@ -42,7 +56,7 @@ class Example(Frame):
         DeleteButton.pack(side=BOTTOM, padx=5, pady=5)
 
         Frame4 = Frame(self)
-        Frame4.grid(row=0, column=5, rowspan=6, columnspan=13, sticky=W + E + N + S)
+        Frame4.grid(row=5, column=5, rowspan=6, columnspan=13, sticky=W + E + N + S)
         scrollbar = Scrollbar(Frame4)
         scrollbar.pack(side=RIGHT, anchor=N, fill=Y, padx=5, pady=5)
         # Example
@@ -53,23 +67,23 @@ class Example(Frame):
         scrollbar.config(command=self.mylist1.yview)
 
         Frame5 = Frame(self)
-        Frame5.grid(row=15, column=0, rowspan=3, columnspan=2, sticky=W + E + N + S)
+        Frame5.grid(row=17, column=0, rowspan=3, columnspan=2, sticky=W + E + N + S)
         lbl2 = Label(Frame5, text="Algorithm :", width=10)
         lbl2.pack(side=LEFT, padx=5, pady=5)
 
         algorithm = StringVar()
         Frame6 = Frame(self)
-        Frame6.grid(row=18, column=0, rowspan=8, columnspan=13, sticky=W + E + N + S)
-        entry2 = Text(Frame6, height=8)
+        Frame6.grid(row=20, column=0, rowspan=8, columnspan=13, sticky=W + E + N + S)
+        entry2 = Entry(Frame6, textvariable = algorithm )
         entry2.pack(fill=X, padx=5, expand=False)
 
         frame7 = Frame(self, relief=RAISED, borderwidth=1)
-        frame7.grid(row=26, column=0, rowspan=1, columnspan=13, sticky=W + E + N + S)
+        frame7.grid(row=28, column=0, rowspan=1, columnspan=13, sticky=W + E + N + S)
         #
         self.pack(fill=BOTH, expand=True)
         #
         Frame8 = Frame(self, relief=RAISED, borderwidth=1)
-        Frame8.grid(row=27, column=0, rowspan=1, columnspan=13, sticky=W + E + N + S)
+        Frame8.grid(row=97, column=0, rowspan=1, columnspan=13, sticky=W + E + N + S)
         RunButton = Button(Frame8, text="<--> Run <-->")
         RunButton.pack(side=RIGHT, padx=5, pady=5)
 
@@ -79,7 +93,7 @@ class Example(Frame):
 
 def main():
     root = Tk()
-    root.geometry("650x400")
+    root.geometry("650x380")
     root.resizable(0, 0)
     app = Example(root)
     root.mainloop()
