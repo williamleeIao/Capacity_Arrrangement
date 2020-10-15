@@ -179,17 +179,17 @@ class Excel_Operation:
     def get_property_algo(self):
         return self.__total_algo
 
-    def run_all_rule(self, algorithm, value_to_skip):
-        value_to_search =[]
-        first_row = self.work_sheet['A':"Z"]  # get a excel address
+    def run_all_rule(self, algorithm, value_to_skip,value_to_search):
+
+        #first_row = self.work_sheet['A':"Z"]  # get a excel address
         self.__value_to_skip__(value_to_skip)  # remove any column that need to skip. This is not involve any algorithm calculation
-        # fetch first row value out , this is need to use for searching
-        for c1 in first_row:
-            if c1[0].value is not None:
-                # if c1[0].value not in Value_to_skip:
-                value_to_search.append(c1[0].value)
-            else:
-                break
+        # # fetch first row value out , this is need to use for searching
+        # for c1 in first_row:
+        #     if c1[0].value is not None:
+        #         # if c1[0].value not in Value_to_skip:
+        #         value_to_search.append(c1[0].value)
+        #     else:
+        #         break
         index_interested = self.__run__(algorithm, value_to_search)
         index_interested = self.__alphabet_replacement__(index_interested)
         self.__algorithm_computation__(index_interested)
@@ -197,13 +197,14 @@ class Excel_Operation:
         return df
 
     def save_new_file(self, dataframe_to_save, path_to_save):
-        pass
+        dataframe_to_save.to_excel(path_to_save)
 
-
-Value_to_skip = ['Part Number', 'Description']  # <---This is variable
-algorithm = 'October 2020+ November 2020 - December 2020;January 2021 + February 2021 + March 2021 ;April 2021 + May 2021 + June 2021'
-file_path = r'C:\Users\willlee\Desktop\CONT Forecast Sept-20.xlsx'
-excel = Excel_Operation()
-value_to_search = excel.file_load(file_path, 'CONT Forecast', 'A', 'Z')
-excel.run_all_rule(algorithm, Value_to_skip)
+if __name__ == '__main__':
+    value_to_search =[]
+    Value_to_skip = ['Part Number', 'Description']  # <---This is variable
+    algorithm = 'October 2020+ November 2020 - December 2020;January 2021 + February 2021 + March 2021 ;April 2021 + May 2021 + June 2021'
+    file_path = r'C:\Users\willlee\Desktop\CONT Forecast Sept-20.xlsx'
+    excel = Excel_Operation()
+    value_to_search = excel.file_load(file_path, 'CONT Forecast', 'A', 'Z')
+    excel.run_all_rule(algorithm, Value_to_skip,value_to_search)
 

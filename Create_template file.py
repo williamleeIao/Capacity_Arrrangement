@@ -5,13 +5,12 @@ from tkinter.ttk import Frame, Button, Style, Label, Entry, Checkbutton, LabelFr
 from File_handle import Excel_Operation
 import re
 
+
 class Example(Frame):
 
     def file_run(self, file_path):
         path = file_path.get()
-        self.excel_op.file_load(path, 'CONT Forecast')
-        self.value = self.excel_op.get_first_col(row_read="1", pick_col=['A', 'B', 'C', 'D', 'E', 'F'])
-        print(self.value)
+        self.value = self.excel_op.file_load(path, 'CONT Forecast', 'A', 'Z')
         for i in self.value:
             self.mylist.insert(END, i)
 
@@ -34,20 +33,13 @@ class Example(Frame):
         for index in sel[::-1]:
             self.mylist1.delete(index)
 
-    def run_all(self,algorithm):
-        #separator ;
-        two_d_list = []
-        one_d_list = []
-        multiple_algo = algorithm.split(';')
-        # multiple algorithm out now
-        # get the row from the text
-        for single_algo in multiple_algo:
-            # single algo out, one algo have multiple operation
-            one_d_list.append(single_algo)
-            multiple_value = re.split("\\+|\\-",single_algo)
-            for value in multiple_value:
-                one_d_list.append(self.excel_op.get_column_name(value))
-            two_d_list.append(one_d_list)
+    def run_all(self, algorithm, value_to_skip):
+        # separator ;
+        # Get Value to skip and get Algorithm
+        print(algorithm)
+        print(value_to_skip)  # it is a list
+        df = self.excel_op.run_all_rule(algorithm, list(value_to_skip), self.value)
+        self.excel_op.save_new_file(df, r"C:\Users\willlee\Desktop\testing.xlsx")
 
     def __init__(self, root):
         super().__init__()
@@ -126,14 +118,27 @@ class Example(Frame):
         entry2 = Entry(Frame6, textvariable=algorithm)
         entry2.pack(fill=X, padx=5, expand=False)
 
+        Frame10 = Frame(self)
+        Frame10.grid(row=40, column=0, rowspan=3, columnspan=13, sticky=W + E + N + S)
+        lbl2 = Label(Frame10, text="File_Destination_Saving :", width=25)
+        lbl2.pack(side=LEFT, padx=5, pady=5)
+
+        save_file_path = StringVar()
+        Frame9 = Frame(self)
+        Frame9.grid(row=46, column=0, rowspan=8, columnspan=13, sticky=W + E + N + S)
+        entry2 = Entry(Frame9, textvariable=save_file_path)
+        entry2.pack(fill=X, padx=5, expand=False)
+
         frame7 = Frame(self, relief=RAISED, borderwidth=1)
-        frame7.grid(row=28, column=0, rowspan=1, columnspan=13, sticky=W + E + N + S)
+        frame7.grid(row=60, column=0, rowspan=1, columnspan=13, sticky=W + E + N + S)
         #
         self.pack(fill=BOTH, expand=True)
         #
         Frame8 = Frame(self, relief=RAISED, borderwidth=1)
         Frame8.grid(row=97, column=0, rowspan=1, columnspan=13, sticky=W + E + N + S)
-        RunButton = Button(Frame8, text="<--> Run <-->", command = lambda:self.run_all(algorithm))
+        RunButton = Button(Frame8, text="<--> Run <-->", command=lambda: self.run_all(algorithm.get(),
+                                                                                      self.mylist1.get(0,
+                                                                                                       self.mylist1.size() - 1)))
         RunButton.pack(side=RIGHT, padx=5, pady=5)
 
 
